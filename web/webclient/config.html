@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>chrometizer</title>
+	<link href="/webclient/assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/webclient/assets/css/bootstrap-theme.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-fluid">
+	<div id="cnav" class="row">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<p class="text-left">
+				<a id="castlnk" class="cnavbar-link" href="#">Chrometizer</a>
+			</p>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<p class="text-right">
+				<a class="cnavbar-link" href="#">
+					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+				</a>
+			</p>
+		</div>
+	</div>
+</div>
+
+
+<div class="container-fluid">
+<div class="cellalign">
+
+<form class="form-horizontal">
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Media</div>
+	<div class="panel-body">
+		<div id="ml_ctrl" class="form-group">
+			<label for="media_loc" class="col-md-2 control-label">Videos location</label>
+			<div class="col-md-10">
+				<input id="media_loc" type="text" class="form-control" placeholder="/storage/myvideos">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="exclude_locs" class="col-md-2 control-label">Exclude sub dirs</label>
+			<div class="col-md-10">
+				<input id="exclude" type="text" class="form-control" placeholder="ignoredir1,ignoredir2">
+			</div>
+		</div>
+	</div> 
+</div>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Actions</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<div class="checkbox">
+					<label><input id="remove_orig" type="checkbox"> Delete original files after transcoding</label>
+				</div>
+			</div>
+		</div>
+	</div> 
+</div>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Config</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label class="col-md-2 control-label">File location</label>
+			<div class="col-md-10"><p id="config_loc" class="form-control-static"></p></div>
+		</div>
+	</div>
+</div>
+
+<div id="alr" class="alert" role="alert"></div>
+
+<div class="row">
+	<div class="col-md-2 col-md-offset-5">
+		<button type="submit" class="btn btn-success btn-lg btn-block">write config</button>
+	</div>
+</div>
+</form>
+
+<div class="clearfix">&nbsp;</div>
+
+<div id="status" style="display:none">	
+	<div class="alert alert-success">
+		<div id="ffmpegstat"></div>
+	</div>
+	
+	<div class="panel panel-danger">
+		<div class="panel-heading">Errors</div>
+		<div id="errs" class="panel-body"></div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">Files</div>
+		<div id="files" class="panel-body"></div>
+	</div>
+</div>
+
+
+</div> <!-- cellalign -->
+</div> <!-- container-fluid -->
+
+<script src="/webclient/assets/js/jquery-1.11.3.min.js"></script>
+<script src="/webclient/assets/js/bootstrap.min.js"></script>
+<script src="/webclient/assets/js/config_page.js"></script>
+
+</body>
+
+</html>

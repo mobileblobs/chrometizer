@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>chrometizer</title>
+	<link href="/webclient/assets/css/gplayer.css" rel="stylesheet">
+	<link href="/webclient/assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/webclient/assets/css/bootstrap-theme.css" rel="stylesheet">	
+	<link href="/webclient/assets/css/jquery.typeahead.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container-fluid">
+	<div id="cnav" class="row">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<p class="text-left">
+				<a id="castlnk" class="cnavbar-link" href="#">Chrometizer</a>
+			</p>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<p class="text-right">
+				<a class="cnavbar-link" href="/webclient/config.html">
+					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+				</a>
+			</p>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid">
+
+	<!-- video player -->
+	<div id="vplayer" style="display:none">
+		<div id="stopclose">
+			<a href="#" onclick="stopclose()"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>
+		</div>
+		<div id="main_video">
+			<div class="imageSub"> <!-- Put Your Image Width -->
+				<div class="blackbg" id="playerstatebg">IDLE</div>
+				<div class=label id="playerstate">IDLE</div>
+				<!-- <img src="images/bunny.jpg" id="video_image">  -->
+				<div id="video_image_overlay"></div>
+				<video id="video_element"></video>
+			</div>
+	
+			<div id="media_control">
+				<div id="play"></div>
+				<div id="pause"></div>
+				<div id="progress_bg"></div>
+				<div id="progress"></div>
+				<div id="progress_indicator"></div>
+				<div id="fullscreen_expand"></div>
+				<div id="fullscreen_collapse"></div>
+				<div id="casticonactive"></div>
+				<div id="casticonidle"></div>
+				<div id="audio_bg"></div>
+				<div id="audio_bg_track"></div>
+				<div id="audio_indicator"></div>
+				<div id="audio_bg_level"></div>
+				<div id="audio_on"></div>
+				<div id="audio_off"></div>
+				<div id="duration">00:00:00</div>
+			</div>
+		</div>
+		
+	</div>
+	<!-- end of player -->
+
+	<div class="container-fluid">
+		<div class="row" style="padding:0 0 15px 0">
+	  		<div class="col-xs-12">
+	  			
+				<div class="col-xs-6" style="padding:0">
+					<form>
+						<div class="typeahead__container">
+							<div class="typeahead__field">
+								<span class="typeahead__query">
+									<input class="js-typeahead" name="q" type="search" autocomplete="off" placeholder="search">
+								</span>
+							</div>
+						</div>
+					</form>
+				</div>
+				
+				<div id="reset" class="col-xs-6" style="padding:0; display:none;" >
+					<button type="button" class="btn btn-default" aria-label="Sort by Alphabet" onClick="location.reload();">
+						<span class="glyphicon glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+					</button>
+				</div>
+								
+				<div id="sort" class="col-xs-6" style="padding:0">
+	  				<div class="dropdown pull-right">
+						<button id="cur_sort" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" 
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li class="dds" id="0"><a href="#">modified time des</a></li>
+							<li class="dds" id="1"><a href="#">modified time asc</a></li>
+							<li class="dds" id="2"><a href="#">file name asc</a></li>
+							<li class="dds" id="3"><a href="#">file name des</a></li>
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="clearfix"></div>
+	
+	<div id="html5-videos"></div>
+	
+	<div class="clearfix"></div>
+	
+	<div id="pagintor" style="display:none;">
+		<nav>
+			<ul class="pager">
+				<li><button id="prev" class="btn btn-primary" aria-label="Previous"><span aria-hidden="true">&laquo;&nbsp;Prev</span></button></li>
+				<li><span id="pgtext"></span></li>
+				<li><button id="next" class="btn btn-primary" aria-label="Next"><span aria-hidden="true">Next&nbsp;&raquo;</span></button></li>
+			</ul>
+		</nav>
+	</div>
+
+</div>
+
+<script src="/webclient/assets/js/jquery-1.11.3.min.js"></script>
+<script src="/webclient/assets/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script> -->
+<script src="/webclient/assets/js/cast_sender.js"></script>
+<script src="/webclient/assets/js/jquery.typeahead.min.js"></script>
+<script src="/webclient/assets/js/cast_videos.js"></script>
+
+</body>
+
+</html>
