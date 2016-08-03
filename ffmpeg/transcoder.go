@@ -2,7 +2,6 @@ package ffmpeg
 
 import (
 	"bytes"
-	"fmt"
 	"github.com/mobileblobs/chrometizer/config"
 	"github.com/mobileblobs/chrometizer/fs"
 	"os"
@@ -86,14 +85,14 @@ func transcode(args []string, vf *fs.VF) {
 
 	vf.Transcoding = true
 	cmd := exec.Command(config.FFMPEG_CMD, args...)
-	fmt.Printf("\nexecuting: %s", cmd.Args)
+	//fmt.Printf("\nexecuting: %s", cmd.Args)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	var erro bytes.Buffer
 	cmd.Stderr = &erro
 
 	cmd.Run()
-	fmt.Printf("\n ^ completed!")
+	//fmt.Printf("\n ^ completed!")
 
 	// rename as ready
 	temp_file := args[len(args)-1]
