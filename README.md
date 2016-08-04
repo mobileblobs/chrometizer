@@ -25,8 +25,16 @@ go get github.com/mobileblobs/chrometizer
 #allow port 80
 sudo setcap 'cap_net_bind_service=+ep' $HOME/go/bin/chrometizer
 
-#run it
+#run it once
 $HOME/go/bin/chrometizer &
+
+#OR make it start on boot
+cd /lib/systemd/system/
+sudo wget https://raw.githubusercontent.com/mobileblobs/chrometizer/master/dist/chrometizer.service
+#add your user and path
+sudo vi chrometizer.service
+sudo systemctl enable chrometizer.service
+sudo systemctl start chrometizer
 
 #configure it
 google-chrome http://localhost
