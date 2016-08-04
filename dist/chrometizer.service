@@ -1,0 +1,10 @@
+[Unit]
+Description=Job that runs the chrometizer server
+[Service]
+Type=simple
+# change <your user>
+User=<your user>
+# change <absolute path to the binary>
+ExecStartPre=setcap 'cap_net_bind_service=+ep' /<absolute path to the binary>/chrometizer
+# change <absolute path to the binary>
+ExecStart=/<absolute path to the binary>/chrometizer
