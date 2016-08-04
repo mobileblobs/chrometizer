@@ -1,11 +1,51 @@
 # Chrometizer
 Transcode and cast your local video files. It's written in Go and does transcoding off-line (upfront). It was inspired by [this nice and simple script](https://gist.github.com/steventrux/10815095). Thanks @steventrux!
 
+Why not [Plex](https://www.plex.tv/) or [Kodi](https://kodi.tv/)? They are both nice, full-fledged home theater systems with data bases, converters, clients etc. etc.I wanted something small, simple and as light as possible (don't try to stream to mutiple clients transcoding on the fly with Plex unless you run dual Xeon rig ;) ).
+
+##### For the impatient
+```
+#get golang 1.6
+sudo apt-get install golang-1.6
+
+#configure paths
+vi ~/.profile
+export PATH=$PATH:/usr/local/go/bin
+export GOROOT=$HOME/go
+export PATH=$PATH:$GOROOT/bin
+
+#get FFmpeg with non-free
+sudo add-apt-repository ppa:djcj/hybrid
+sudo apt-get update
+sudo apt-get install ffmpeg
+
+#get chrometizer
+go get github.com/mobileblobs/chrometizer
+
+#allow port 80
+sudo setcap 'cap_net_bind_service=+ep' $HOME/go/bin/chrometizer
+
+#run it
+$HOME/go/bin/chrometizer &
+
+#configure it
+google-chrome http://localhost
+
+```
 
 #### General
 The design is KISS & DRY (as much as possible) and the whole project can be described as : transcode all of your video files upfront, use only the filesystem as state/storage, cast, stream, watch the transcoded files to as many clients as you need at the same time with minimum load on the server.
 
-#### FFmpeg
+#### FFmpeg installation
+##### From PPA (Debian/Ubuntu)
+```
+sudo add-apt-repository ppa:djcj/hybrid
+sudo apt-get update
+sudo apt-get install ffmpeg
+```
+If you don't get errors - you are done! move on Chrometizer installation and running.
+
+##### From source
 Chrometizer uses FFMPEG for transcoding and you will need to compile it with non-free codecs.
 Simple, straightforward guide for Ubuntu/Debian can be found [here](https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu).
 
@@ -27,7 +67,7 @@ ffmpeg -codecs 2> /dev/null | grep "libx264"
 
 ```
 
-#### Installation
+#### Chrometizer installation
 If you managed to get FFmpeg with aac & x264 you are ready to install. If not, keep [trying](https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu) - again chrometizer will refuse to start if they are not avalable.
 ##### Binary
 If you are running on 64 bit Linux you should be able to just grab the binary from the dist folder put it in the desired directory and :
