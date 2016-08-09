@@ -1,5 +1,7 @@
 [Unit]
 Description=Job that runs the chrometizer server
+After=network-online.target
+Requires=network-online.target
 
 [Service]
 Type=simple
