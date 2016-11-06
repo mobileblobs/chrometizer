@@ -140,7 +140,7 @@ go get github.com/jteeuwen/go-bindata
 All web resources are packed into the binary in order to be able to work even when the user has no internet access. Using CDNs is tempting but if user is offline she needs to be able to play her local files.
 
 ##### webclient
-It is a typical standalone (although served but the server) web app - HTML, CSS and JS. Jquery is required by the Bootstrap so I sticked with it (angular would be nicer but why two when it can be done with 1?).
+It is a typical standalone (although served by the server) web app - HTML, CSS and JS. Jquery is required by the Bootstrap so I sticked with it (angular would be nicer but why two when it can be done with 1?).
 There is nothing specific except the use of go-binda.
 To start developing he webclient you will need to run go-bindata with debug switch :
 ```
