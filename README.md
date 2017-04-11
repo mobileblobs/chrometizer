@@ -11,8 +11,8 @@ sudo apt-get install golang-1.6
 #configure paths
 vi ~/.profile
 export PATH=$PATH:/usr/local/go/bin
-export GOROOT=$HOME/go
-export PATH=$PATH:$GOROOT/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 
 #get FFmpeg with non-free
 sudo add-apt-repository ppa:djcj/hybrid
@@ -23,10 +23,10 @@ sudo apt-get install ffmpeg
 go get github.com/mobileblobs/chrometizer
 
 #allow port 80
-sudo setcap 'cap_net_bind_service=+ep' $HOME/go/bin/chrometizer
+sudo setcap 'cap_net_bind_service=+ep' $GOPATH/bin/chrometizer
 
 #run it once
-$HOME/go/bin/chrometizer &
+chrometizer &
 
 #OR make it start on boot
 cd /lib/systemd/system/
