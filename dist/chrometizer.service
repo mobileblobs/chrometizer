@@ -8,9 +8,14 @@ Type=simple
 # change <your user>
 User=<your user>
 # change <absolute path to the binary>
-ExecStartPre=setcap 'cap_net_bind_service=+ep' /<absolute path to the binary>/chrometizer
-# change <absolute path to the binary>
 ExecStart=/<absolute path to the binary>/chrometizer
+
+; The following additional security directives only work with systemd v229 or later.
+; They further retrict privileges that can be gained by caddy. Uncomment if you like.
+; Note that you may have to add capabilities required by any plugins in use.
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
 
 [Install]
 WantedBy=multi-user.target
