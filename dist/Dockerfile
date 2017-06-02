@@ -10,8 +10,9 @@ RUN apk add --update --update-cache --repository http://dl-3.alpinelinux.org/alp
 
 #http://nl.alpinelinux.org/alpine/edge/main
 
-RUN apk add --update build-base curl nasm tar bzip2 \
-  zlib-dev openssl-dev yasm-dev lame-dev libogg-dev x264-dev libvpx-dev libvorbis-dev x265-dev freetype-dev libass-dev libwebp-dev rtmpdump-dev libtheora-dev opus-dev && \
+RUN apk add build-base curl nasm tar bzip2 \
+ zlib-dev openssl-dev yasm-dev lame-dev libogg-dev x264-dev libvpx-dev libvorbis-dev\
+ x265-dev freetype-dev libass-dev libwebp-dev rtmpdump-dev libtheora-dev opus-dev && \
 
   DIR=$(mktemp -d) && cd ${DIR} && \
 
@@ -29,10 +30,12 @@ RUN apk add --update build-base curl nasm tar bzip2 \
 RUN apk update && apk add ca-certificates wget
 
 # where external videos will be mounted
-RUN mkdir /storage
+RUN mkdir /storage 
+
+Run echo "{ \"Config_loc\": \"/root/.chrometizer.json\", \"Media_loc\": \"/storage\", \"Exclude\": [], \"Remove_orig\": true, \"Server_eip\": \"\" }" > /storage/.chrometizer.json
 
 RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
   
 RUN wget https://github.com/mobileblobs/chrometizer/raw/master/dist/chrometizer && chmod +x chrometizer && mv chrometizer /usr/local/bin
 
-CMD ["chrometizer"]
+CMD echo "{ \"Config_loc\": \"/root/.chrometizer.json\", \"Media_loc\": \"/storage\", \"Exclude\": [], \"Remove_orig\": true, \"Server_eip\": \"\" }" > /storage/.chrometizer.json && chrometizer -c=/storage/.chrometizer.json
