@@ -34,6 +34,16 @@ func main() {
 }
 
 func externalIP() (string, error) {
+	// first test to see if ENV EIP is set
+	eIP := os.Getenv("EIP")
+	if len(eIP) > 0 {
+		return eIP, nil
+	}
+
+	return probeEip()
+}
+
+func probeEip() (string, error) {
 	ifaces, err := net.Interfaces()
 	if err != nil {
 		return "", err
