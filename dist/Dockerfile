@@ -8,8 +8,6 @@ WORKDIR /tmp/ffmpeg
 
 RUN apk add --update --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ fdk-aac-dev
 
-#http://nl.alpinelinux.org/alpine/edge/main
-
 RUN apk add build-base curl nasm tar bzip2 \
  zlib-dev openssl-dev yasm-dev lame-dev libogg-dev x264-dev libvpx-dev libvorbis-dev\
  x265-dev freetype-dev libass-dev libwebp-dev rtmpdump-dev libtheora-dev opus-dev && \
@@ -19,7 +17,9 @@ RUN apk add build-base curl nasm tar bzip2 \
   curl -s http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz | tar zxvf - -C . && \
   cd ffmpeg-${FFMPEG_VERSION} && \
   ./configure \
-  --enable-version3 --enable-gpl --enable-nonfree --enable-small --enable-libmp3lame --enable-libx264 --enable-libx265 --enable-libvpx --enable-libtheora --enable-libvorbis --enable-libopus --enable-libass --enable-libwebp --enable-librtmp --enable-postproc --enable-avresample --enable-libfreetype --enable-openssl --enable-libfdk-aac --disable-debug && \
+  --enable-version3 --enable-gpl --enable-nonfree --enable-small --enable-libmp3lame --enable-libx264 --enable-libx265 \
+  --enable-libvpx --enable-libtheora --enable-libvorbis --enable-libopus --enable-libass --enable-libwebp --enable-librtmp \
+  --enable-postproc --enable-avresample --enable-libfreetype --enable-openssl --enable-libfdk-aac --disable-debug && \
   make && \
   make install && \
   make distclean && \
@@ -34,6 +34,15 @@ RUN mkdir /storage
 
 RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
   
-RUN wget https://github.com/mobileblobs/chrometizer/raw/master/dist/chrometizer && chmod +x chrometizer && mv chrometizer /usr/local/bin
+RUN wget https://github.com/mobileblobs/chrometizer/raw/master/dist/chrometizer && \
+  chmod +x chrometizer && mv chrometizer /usr/local/bin
 
-CMD echo "{ \"Config_loc\": \"/storage/.chrometizer.json\", \"Media_loc\": \"/storage\", \"Exclude\": [], \"Remove_orig\": true, \"Server_eip\": \"\" }" > /storage/.chrometizer.json && chrometizer -c=/storage/.chrometizer.json
+ENV EIP 127.0.0.1
+
+CMD if [ ! -f /storage/.chrometizer.json ]; then\
+  echo "{ \"Config_loc\": \"/storage/.chrometizer.json\",\
+  \"Media_loc\": \"/storage\",\
+  \"Exclude\": [], \"Remove_orig\": false,\
+  \"Server_eip\": \"${EIP}\" }" > /storage/.chrometizer.json;\
+  fi &&\
+  chrometizer -c=/storage/.chrometizer.json
