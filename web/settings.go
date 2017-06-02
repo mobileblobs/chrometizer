@@ -34,6 +34,10 @@ func HandleConfig(w http.ResponseWriter, r *http.Request) {
 			writeMsg(w, msg)
 			return
 		}
+		
+		if len(temp_conf.Server_eip) < 10 {
+			temp_conf.Server_eip = config.Conf.Server_eip
+		}
 
 		config.Conf = temp_conf
 		err = config.StoreConfig()
