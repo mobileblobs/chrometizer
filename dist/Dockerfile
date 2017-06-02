@@ -32,10 +32,8 @@ RUN apk update && apk add ca-certificates wget
 # where external videos will be mounted
 RUN mkdir /storage 
 
-Run echo "{ \"Config_loc\": \"/root/.chrometizer.json\", \"Media_loc\": \"/storage\", \"Exclude\": [], \"Remove_orig\": true, \"Server_eip\": \"\" }" > /storage/.chrometizer.json
-
 RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
   
 RUN wget https://github.com/mobileblobs/chrometizer/raw/master/dist/chrometizer && chmod +x chrometizer && mv chrometizer /usr/local/bin
 
-CMD echo "{ \"Config_loc\": \"/root/.chrometizer.json\", \"Media_loc\": \"/storage\", \"Exclude\": [], \"Remove_orig\": true, \"Server_eip\": \"\" }" > /storage/.chrometizer.json && chrometizer -c=/storage/.chrometizer.json
+CMD echo "{ \"Config_loc\": \"/storage/.chrometizer.json\", \"Media_loc\": \"/storage\", \"Exclude\": [], \"Remove_orig\": true, \"Server_eip\": \"\" }" > /storage/.chrometizer.json && chrometizer -c=/storage/.chrometizer.json
