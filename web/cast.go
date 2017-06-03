@@ -11,7 +11,6 @@ import (
 const PAGE_SIZE = 24
 
 type Spvf struct {
-	SeIP  string   // server external IP
 	Page  int      // 0,1,2,3 ...
 	Sort  int      // 0,1,2,3 - MD desc; MD asc; Alpha asc; Alpha desc;
 	Total int      // number of ALL VFs
@@ -45,7 +44,7 @@ func sortedPage(sort int, page int, vfs []*fs.VF) Spvf {
 
 func sortPage(sort int, page int, total int, pvfs []*fs.VF) Spvf {
 	// sorted, paged vide files (spvf-s)
-	return Spvf{config.Conf.Server_eip, page, sort, total, PAGE_SIZE, pvfs}
+	return Spvf{page, sort, total, PAGE_SIZE, pvfs}
 }
 
 func cutPage(page int, vfs []*fs.VF) (total int, pvfs []*fs.VF) {

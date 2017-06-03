@@ -977,6 +977,9 @@ var server_ext_ip;
 var cur_video_rurl;
 
 $(document).ready(function() {
+
+	server_ext_ip = document.domain;
+		
 	$.typeahead({
 		input : ".js-typeahead",
 		order : "asc",
@@ -1038,21 +1041,22 @@ function loadGrid() {
 	clearGrid();
 
 	$.get("/api/cast?page=" + pageNum + "&sort=" + sort, function(spvf) {
-		server_ext_ip = spvf.SeIP;		
 		pageNum = spvf.Page;
 		setPager(spvf.PSize, spvf.Total);
 		setSort(spvf.Sort);
-
-		$.each(spvf.Vfs, function(i, vf) {
-			if (!vf.Err && vf.Ready) {
-				addVid(vf.Path, vf.Name);
+				
+		if(spvf.Vfs) {
+			$.each(spvf.Vfs, function(i, vf) {
+				if (!vf.Err && vf.Ready) {
+					addVid(vf.Path, vf.Name);
+				}
+			});
+	
+			if (spvf.Total > spvf.PSize) {
+				$('#prev').prop('disabled', ((spvf.Page >= 1) ? false : true));
+				$('#next').prop('disabled', (((spvf.Page + 1) * spvf.PSize) > spvf.Total ? true : false));
+				$('#pagintor').show();
 			}
-		});
-
-		if (spvf.Total > spvf.PSize) {
-			$('#prev').prop('disabled', ((spvf.Page >= 1) ? false : true));
-			$('#next').prop('disabled', (((spvf.Page + 1) * spvf.PSize) > spvf.Total ? true : false));
-			$('#pagintor').show();
 		}
 	})
 }

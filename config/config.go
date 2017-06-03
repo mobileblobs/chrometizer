@@ -2,13 +2,11 @@ package config
 
 import (
 	"encoding/json"
-	"errors"
-	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
-	"os/user"
+	"strconv"
+	"strings"
 )
 
 const FFMPEG_CMD = "ffmpeg"
@@ -19,7 +17,8 @@ const TRIMED_H264_MARK = "VIDEO:H264"
 const H264_UNSUP = "HIGH10"
 const AAC_AUDIO_MARK = "AUDIO:AAC"
 
-// this CS is actually : scale="iw*min(384/iw\,216/ih):ih*min(384/iw\,216/ih), pad=384:216:(384-iw*min(384/iw\,216/ih))/2:(216-ih*min(384/iw\,216/ih))/2"
+// this CS is actually : scale="iw*min(384/iw\,216/ih):ih*min(384/iw\,216/ih),
+// pad=384:216:(384-iw*min(384/iw\,216/ih))/2:(216-ih*min(384/iw\,216/ih))/2"
 const THUMB_W = "384" // thumb width in pixels
 const THUMB_H = "216" // thumb height in pixels
 const THUMB_SCALE = "scale='iw*min(" + THUMB_W +
@@ -46,42 +45,34 @@ type Config struct {
 	Media_loc   string
 	Exclude     []string
 	Remove_orig bool
-	Server_eip  string
 }
 
 var Conf Config
 
-func LoadConfig(server_eip string) error {
-	// IPs change often so we just load it on startup
-	Conf.Server_eip = server_eip
+func LoadConfig() {
 
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
-	}
+	if readConfig() != nil {
+		// ln if needed
+		Conf.Media_loc = "/storage"
+		Conf.Config_loc = Conf.Media_loc + "/.chrometizer.json"
 
-	flag.StringVar(&Conf.Config_loc, "c", usr.HomeDir+"/.chrometizer.json", "chrometizer -c=/path/to/.chrometizer.json")
-	flag.Parse()
-
-	err = readConfig()
-	if err != nil {
-		return err
-	}
-
-	tc, jm := ConfigTest(&Conf)
-	if !tc {
-		fmt.Printf("\nbad media location dir! Resetting config %s!", Conf.Config_loc)
-		os.Remove(Conf.Config_loc)
-		Conf.Config_loc = usr.HomeDir + "/.chrometizer.json"
-		Conf.Media_loc = ""
 		Conf.Exclude = nil
-		Conf.Remove_orig = false
+		exc := os.Getenv("EXC")
+		if len(exc) > 0 {
+			Conf.Exclude = strings.Split(exc, ",")
+		}
 
-		return errors.New(jm.Message)
+		Conf.Remove_orig = false
+		rem := os.Getenv("REM")
+		if len(rem) > 0 {
+			Conf.Remove_orig, _ = strconv.ParseBool(rem)
+		}
+
+		// write the config
+		StoreConfig()
 	}
 
 	fmt.Printf("\nusing %s as config!", Conf.Config_loc)
-	return nil
 }
 
 func StoreConfig() error {
@@ -94,7 +85,8 @@ func StoreConfig() error {
 }
 
 func readConfig() error {
-	file, e := ioutil.ReadFile(Conf.Config_loc)
+	// try to read from default location or return error
+	file, e := ioutil.ReadFile("/storage/.chrometizer.json")
 	if e != nil {
 		return e
 	}
