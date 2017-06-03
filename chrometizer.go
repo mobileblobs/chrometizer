@@ -20,7 +20,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	// load config from /storage or write it from ENV
+	// test config
+	confErr := config.TestConfig()
+	if confErr != nil {
+		fmt.Println(confErr)
+		os.Exit(1)
+	}
+
+	// load config from /storage
 	config.LoadConfig()
 
 	ffmpeg.TranscodeAll()

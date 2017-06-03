@@ -41,7 +41,7 @@ func HandleFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	path := strings.TrimPrefix(r.URL.Path, "/file/")
-	http.ServeFile(w, r, config.Conf.Media_loc+"/"+path)
+	http.ServeFile(w, r, config.MEDIA+"/"+path)
 }
 
 func HandleApi(w http.ResponseWriter, r *http.Request) {

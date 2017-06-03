@@ -24,7 +24,7 @@ func findVideos() (vfs []*VF) {
 
 	var all_vfs []*VF
 
-	err := filepath.Walk(config.Conf.Media_loc, func(path string, f os.FileInfo, err error) error {
+	err := filepath.Walk(config.MEDIA, func(path string, f os.FileInfo, err error) error {
 		if !f.IsDir() && notExcluded(path) && isSupVideoFile(f, &path) {
 			all_vfs = append(all_vfs,
 				&VF{
@@ -81,13 +81,13 @@ func Sort(vfs []*VF, order int) []*VF {
 }
 
 func notExcluded(path string) bool {
-	if len(config.Conf.Exclude) < 1 || len(path) == len(config.Conf.Media_loc) {
+	if len(config.Conf.Exclude) < 1 || len(path) == len(config.MEDIA) {
 		return true
 	}
 
-	dir, _ := filepath.Split(path)         // /a/b/c/file.fn -> /a/b/c/
-	dir = dir[len(config.Conf.Media_loc):] // /a/b/c -> /c
-	dir = strings.ToUpper(dir)             // /c -> /C
+	dir, _ := filepath.Split(path) // /a/b/c/file.fn -> /a/b/c/
+	dir = dir[len(config.MEDIA):]  // /a/b/c -> /c
+	dir = strings.ToUpper(dir)     // /c -> /C
 
 	for _, exdir := range config.Conf.Exclude {
 		if strings.Contains(dir, strings.ToUpper(exdir)) {

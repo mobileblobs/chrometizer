@@ -66,7 +66,7 @@ func relVfs(vfs []*fs.VF) (rvfs []*fs.VF) {
 	for _, vf := range vfs {
 		rvfs = append(rvfs, &fs.VF{
 			vf.Name,
-			vf.Path[len(config.Conf.Media_loc):], // make it relative!
+			vf.Path[len(config.MEDIA):], // make it relative!
 			vf.Mtime,
 			vf.Ready,
 			vf.Transcoding,
@@ -112,7 +112,7 @@ func HandleVnames(w http.ResponseWriter, r *http.Request) {
 
 func vNames(vfs []*fs.VF) (vnames []Video) {
 	for _, vf := range vfs {
-		vnames = append(vnames, Video{vf.Name, vf.Path[len(config.Conf.Media_loc):]})
+		vnames = append(vnames, Video{vf.Name, vf.Path[len(config.MEDIA):]})
 	}
 	return vnames
 }

@@ -2,11 +2,10 @@ package config
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strconv"
-	"strings"
 )
 
 const FFMPEG_CMD = "ffmpeg"
@@ -40,9 +39,10 @@ var SFE = [...]string{"MKV", "MP4", "AVI", "MPEG", "MPG", "FLV", "3GP", "WEBM"}
 
 var REQ_CODECS = [...]string{"E MP4", "E MATROSKA", "E ADTS", "E H264"}
 
+const MEDIA = "/storage"
+
 type Config struct {
-	Config_loc  string
-	Media_loc   string
+	UID         int
 	Exclude     []string
 	Remove_orig bool
 }
@@ -50,78 +50,44 @@ type Config struct {
 var Conf Config
 
 func LoadConfig() {
+	// defaults
+	Conf.UID = -1
+	Conf.Exclude = nil
+	Conf.Remove_orig = false
 
-	if readConfig() != nil {
-		// ln if needed
-		Conf.Media_loc = "/storage"
-		Conf.Config_loc = Conf.Media_loc + "/.chrometizer.json"
-
-		Conf.Exclude = nil
-		exc := os.Getenv("EXC")
-		if len(exc) > 0 {
-			Conf.Exclude = strings.Split(exc, ",")
+	// load from .chrometizer.json if we have it
+	file, e := ioutil.ReadFile(MEDIA + "/.chrometizer.json")
+	if e == nil {
+		e = json.Unmarshal(file, &Conf)
+		if e == nil {
+			fmt.Printf("config loaded : %+v\n", Conf)
+		} else {
+			fmt.Println(e)
 		}
-
-		Conf.Remove_orig = false
-		rem := os.Getenv("REM")
-		if len(rem) > 0 {
-			Conf.Remove_orig, _ = strconv.ParseBool(rem)
-		}
-
-		// write the config
-		StoreConfig()
 	}
-
-	fmt.Printf("\nusing %s as config!", Conf.Config_loc)
-}
-
-func StoreConfig() error {
-	jb, err := json.MarshalIndent(Conf, "", "  ")
-	if err != nil {
-		fmt.Printf("\nMarshal error: %v\n", err)
-		return err
-	}
-	return ioutil.WriteFile(Conf.Config_loc, jb, 0644)
-}
-
-func readConfig() error {
-	// try to read from default location or return error
-	file, e := ioutil.ReadFile("/storage/.chrometizer.json")
-	if e != nil {
-		return e
-	}
-
-	// config there & OK - scan & transcode
-	return json.Unmarshal(file, &Conf)
 }
 
 // tests Media_loc - writable directory
-func ConfigTest(temp_conf *Config) (bool, JsonMessage) {
-	ml := temp_conf.Media_loc
-	fi, err := os.Stat(ml)
+func TestConfig() error {
+	fi, err := os.Stat(MEDIA)
 
 	if err != nil && os.IsNotExist(err) {
-		return false, JsonMessage{"Media_loc", err.Error()}
+		return err
 	}
 
 	if !fi.IsDir() {
-		return false, JsonMessage{"Media_loc", "Not a directory"}
+		return errors.New("/storage is not a directory")
 	}
 
-	err = ioutil.WriteFile(ml+"/temp.txt", []byte("test"), 0644)
+	err = ioutil.WriteFile(MEDIA+"/temp.txt", []byte("test"), 0644)
 	if err != nil {
-		return false, JsonMessage{"Media_loc", "Can not write to media directory"}
+		return err
 	}
 
-	err = os.Remove(ml + "/temp.txt")
+	err = os.Remove(MEDIA + "/temp.txt")
 	if err != nil {
-		return false, JsonMessage{"Media_loc", "Can not write to media directory"}
+		return err
 	}
 
-	return true, JsonMessage{}
-}
-
-type JsonMessage struct {
-	Id      string
-	Message string
+	return nil
 }
