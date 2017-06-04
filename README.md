@@ -96,7 +96,7 @@ The --restart unless-stopped will make sure it starts on boot.
 ### Native
 You will need to link, mount or move you video files in /storage.  
 Chrometizer will open port 8080. For chromecast to be able to play you will need 
-to proxy(nginx, apache, ha-proxy etc.) or port-forward 80 -> 8080 (iptables) 
+to proxy (nginx, apache, ha-proxy etc.) or port-forward 80 -> 8080 (iptables) 
 or use the systemd service.  
 Create /storage/.chrometizer.json if needed.
 ```
@@ -113,6 +113,6 @@ sudo systemctl start chrometizer
 ```
 
 ## Use (clients)
-There is build-in very primitive web client which you can use at 
+There is built-in, very primitive, web client which you can use at 
 http://server_lan_ip/. You will need to use the LAN IP of the machine 
 (host with docker) if you want to cast.
