@@ -31,7 +31,7 @@ ffmpeg -codecs 2> /dev/null | grep "libx264"
 ```
 
 ##### Source
-Get [golang](https://golang.org/doc/code.html) then :
+Get [golang](https://golang.org/dl/) then :
 ```
 go get github.com/mobileblobs/chrometizer
 go install github.com/mobileblobs/chrometizer
