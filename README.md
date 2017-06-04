@@ -16,8 +16,9 @@ docker images
 
 # get chrometizer latest image
 docker pull mobileblobs/chrometizer
+
+#See configuration bellow.
 ```
-See [configuration](config) section.
 
 ### Native (Ubuntu x86_64)
 ```
@@ -29,15 +30,17 @@ sudo apt-get update && sudo apt-get install -y ffmpeg
 wget https://github.com/mobileblobs/chrometizer/raw/master/dist/chrometizer
 chmod +x chrometizer && mv chrometizer /usr/local/bin/
 sudo mkdir /storage && sudo chown -R $USER /storage
+
+# See configuration bellow.
 ```
-See [configuration](config) section. For other distros, platforms etc. see [Develop](https://github.com/mobileblobs/chrometizer/blob/master/DEVELOP.md).
+For other distros, platforms etc. see [Develop](https://github.com/mobileblobs/chrometizer/blob/master/DEVELOP.md).
 
 ## Configuration
 Chrometizer expects all videos and configuration file to be in /storage.  
 This will be mapped by Docker volume but if you are running natively you should
 link, mount or move you video files in /storage.
 
-#### <a name="config"></a>Configuration file
+#### Configuration file
 Chrometizer looks for /storage/.chrometizer.json.
 If no file is found or it's invalid JSON, defaults are used.
 ```
