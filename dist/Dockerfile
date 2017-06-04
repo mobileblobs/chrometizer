@@ -37,12 +37,4 @@ RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
 RUN wget https://github.com/mobileblobs/chrometizer/raw/master/dist/chrometizer && \
   chmod +x chrometizer && mv chrometizer /usr/local/bin
 
-ENV EIP 127.0.0.1
-
-CMD if [ ! -f /storage/.chrometizer.json ]; then\
-  echo "{ \"Config_loc\": \"/storage/.chrometizer.json\",\
-  \"Media_loc\": \"/storage\",\
-  \"Exclude\": [], \"Remove_orig\": false,\
-  \"Server_eip\": \"${EIP}\" }" > /storage/.chrometizer.json;\
-  fi &&\
-  chrometizer -c=/storage/.chrometizer.json
+CMD chrometizer
