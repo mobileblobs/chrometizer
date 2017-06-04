@@ -66,7 +66,7 @@ Exclude directories within /storage.
 # Default is unset.
 ```
 ###### Remove_orig
-Should the original videos be deleted after successful trans-coding.  
+Should the original videos be deleted after successful transcoding.  
 If you have enough space and want to preserver the original set "false".
 If space is of concern use "true"
 ```
@@ -90,7 +90,7 @@ If everything goes well you should see your container running
 ```
 docker ps
 ```
-and all of your CPU will be consumed by the initial trans-coding.  
+and all of your CPU will be consumed by the initial transcoding.  
 The --restart unless-stopped will make sure it starts on boot.
 
 ### Native
