@@ -113,6 +113,9 @@ sudo systemctl start chrometizer
 ```
 
 ## Use (clients)
-There is built-in, very primitive, web client which you can use at 
+#### Web
+There is built-in web client which you can use at 
 http://server_lan_ip/. You will need to use the LAN IP of the machine 
-(host with docker) if you want to cast.
+(the host if docker) if you want to cast.
+#### Android
+[chrometizer](https://play.google.com/store/apps/details?id=com.mobileblobs.chrometizer.cast.player) will cost you a cup of coffee.
